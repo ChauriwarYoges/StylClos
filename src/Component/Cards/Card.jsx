@@ -18,10 +18,10 @@ const Card = (props) => {
                     <div className="card_info">
                         <h3 className="card_name">{props.sname}</h3>
                         <a href={props.link} target="_blank" className="card_ref">
-                            <button className="card_btn"><i class="fas fa-money-bill-wave-alt"></i> BUY NOW </button>
+                            <button className="card_btn"><i className="fas fa-money-bill-wave-alt"></i> BUY NOW </button>
                         </a>
                         <a href='/Login'>
-                            <button className="card_cart_btn"><i class="fas fa-cart-plus"></i> ADD CART</button>
+                            <button className="card_cart_btn"><i className="fas fa-cart-plus"></i> ADD CART</button>
                         </a>
                     </div>
                 </div>

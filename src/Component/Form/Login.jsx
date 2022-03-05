@@ -1,41 +1,71 @@
 import React from "react";
-import { Link } from 'react-router-dom';
-import './Form.css';
+import { useState } from "react";
+import customerService from "../../Services/customer.service";
 
 function Login() {
 
-    let red = { color: "red" };
-    let padleft = {paddingLeft: '30px'};
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const signin = (e) => {
+        e.preventDefault();
+
+        const user = {email, password};
+
+        if(email) {
+            customerService.signin(user)
+                .then(response => {
+                    alert(response.data);
+                    console.log("login successful", response.Data);
+                })
+                .catch(error => {
+                    alert("Invalid email/password");
+                });
+        }
+        else {
+            alert("Invalid email/password");
+        }
+    } 
 
     return (
-        <>
-            <div className="contains">
-                <div className="info">
-                    <div className="sign_text">
-                        <h2>INFORMATION</h2>
-                        <p style={{ marginLeft: '50px', marginRight: '50px', textAlign: 'left', fontSize: '0.8em' }}>
-                            Our company is very courageous you will find your dream residing us.
-                        </p>
-                        <br />
-                        <button type="button" id="accbtn"><Link style={{textDecoration:'none'}} to='/Signup'><b>Don't have an Account</b></Link></button>
+        <section className="vh-100" style={{ backgroundColor: '#eee' }}>
+            <div className="container py-5 h-100">
+                <div className="row d-flex justify-content-center align-items-center h-100">
+                    <div className="col-12 col-md-8 col-lg-6 col-xl-5">
+                        <div className="card shadow-2-strong" style={{ borderRadius: '1rem' }}>
+                            <div className="card-body p-5 text-center">
+
+                                <h3 className="mb-5">Login</h3>
+                                <form action="/home">
+                                    <div className="form-outline mb-4">
+                                        <label className="form-label" htmlFor="typeEmailX-2">Email</label>
+                                        <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} className="form-control form-control-lg" />
+                                    </div>
+
+                                    <div className="form-outline mb-4">
+                                        <label className="form-label" htmlFor="typePasswordX-2">Password</label>
+                                        <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} className="form-control form-control-lg" />
+                                    </div>
+
+                                    {/*Checkbox*/}
+                                    <div className="form-check d-flex justify-content-start mb-4">
+                                        <input
+                                            className="form-check-input"
+                                            type="checkbox"
+                                            value=""
+                                            id="form1Example3"
+                                        />
+                                        <label className="form-check-label" htmlFor="form1Example3"> &emsp;Remember password </label>
+                                    </div>
+
+                                    <button type="submit" className="btn btn-primary btn-lg btn-block" onClick={(e) => signin(e)}>Login</button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div id="signin">
-                    <form className="sign_form" style={padleft} method='post'>
-                        <h2 style={{ color: "rgb(71, 167, 231)" }}>LOGIN</h2>
-                        <table>
-                            <tr><td>Email<span style={red}>*</span> </td></tr>
-                            <tr><td><input type="text" className="usermail" name="login" required autoFocus /></td></tr>
-                            <tr><td><br /></td></tr>
-                            <tr><td>Password<span style={red}>*</span> </td></tr>
-                            <tr><td><input type="password" className="userpass" name="login" required /></td></tr>
-                            <tr><td><br /><br /></td></tr>
-                        </table>
-                        <input type="submit" value="LOGIN" id="loginbtn" name="login" />
-                    </form>
-                </div>
             </div>
-        </>
+        </section>
     );
 }
 

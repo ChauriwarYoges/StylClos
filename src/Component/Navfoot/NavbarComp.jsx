@@ -34,9 +34,9 @@ const NavbarComp = () => {
                         </button>
                         <div className={`collapse navbar-collapse ${show ? "show" : ""}`} id="navbarSupportedContent">
                             <form className="navbar-nav ms-auto mb-2 mb-lg-0">
-                                <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+                                <input className="form-control1 me-2" type="search" placeholder="Search" aria-label="Search" />
                                 <button className="btn btn-outline" type="submit">
-                                    <i class="fas fa-search fa-1.5x"></i>
+                                    <i className="fas fa-search fa-1.5x"></i>
                                 </button>
                             </form>
                             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -63,7 +63,7 @@ const NavbarComp = () => {
 
                                 <NavLink to={'/Login'}>
                                     <button className="cart-btn">
-                                        <i class="fas fa-shopping-cart fa-1.5x"></i>
+                                        <i className="fas fa-shopping-cart fa-1.5x"></i>
                                     </button>
                                 </NavLink>
 

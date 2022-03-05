@@ -13,7 +13,6 @@ function Womens() {
                     
                     <div className="collection-container" style={{display:'flex', flexWrap:'wrap'}}>
                     {NewCollection.map((val) => {
-                        console.log(val);
                         return (<Card 
                             imgsrc = {val.imgsrc}
                             title = {val.title}
