@@ -7,7 +7,7 @@ function Login() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [role] = useState('CUSTOMER');
+    const [role] = useState('SELLER');
     const nav = useNavigate();
 
     const signin = (e) => {
@@ -18,9 +18,9 @@ function Login() {
         if(email) {
             userService.signin(user)
                 .then(response => {
-                    alert(response.data.role);
+                    alert("Role : " + response.data.role);
                     console.log("login successful", response.data);
-                    //nav("/");
+                    
                     return true;
                 })
                 .catch(error => {

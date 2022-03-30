@@ -10,6 +10,9 @@ import NavbarComp from './Component/Navfoot/NavbarComp';
 import Footer from './Component/Navfoot/Footer';
 import Signup from './Component/Form/Signup';
 import Login from './Component/Form/Login';
+import LoginSeller from './Component/Seller/Login';
+import SignupSeller from './Component/Seller/Signup';
+import SellerHome from './Component/Seller/Home';
 import './App.css';
 
 
@@ -26,6 +29,10 @@ const App = () => {
                 <Route path='/Login' element={<Login />} />
                 <Route path='/Signup' element={<Signup />} />
                 <Route path='/ProductDetailedPage' element={<ProductDetailedPage />} />
+                <Route path='/seller' element={<LoginSeller />} />
+                <Route path="/seller/login" element={<LoginSeller />} />
+                <Route path="/seller/signup" element={<SignupSeller />} />
+                <Route path="/seller/home" element={<SellerHome />} />
             </Routes>
             <Footer />
         </>

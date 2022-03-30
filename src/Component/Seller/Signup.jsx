@@ -1,8 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import './Form.css';
-import customerService from '../../Services/customer.service';
+import customerService from '../../Services/seller.service';
 
 function Signup() {
     const matchPass = () => {
@@ -78,9 +77,7 @@ function Signup() {
             }
         }
     }
-
-    return (
-
+    return (<>
         <section className="vh-100" style={{ backgroundColor: '#eee' }}>
             <div className="container h-100">
                 <div className="row d-flex justify-content-center align-items-center h-100">
@@ -157,8 +154,7 @@ function Signup() {
                 </div>
             </div>
         </section>
-
-    );
+    </>);
 }
 
 export default Signup;

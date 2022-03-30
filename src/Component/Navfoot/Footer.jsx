@@ -1,65 +1,65 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 import styled from 'styled-components';
 
 
 const Footer = () => {
     return (
         <>
-            <FooterContainer className='main-footer'>
-                <div className='footer-middle'>
-                    <div className='container'>
-                        <div className='row'>
-                            <div className='col-md-3 col-sm-6'>
-                                {/* Column 1 */}
-                                <h4>Lorem ipsum</h4>
-                                <ul className='list-unstyled'>
-                                    <li>Lorem ipsum</li>
-                                    <li>Lorem ipsum</li>
-                                    <li>Lorem ipsum</li>
-                                    <li>Lorem ipsum</li>
-                                </ul>
+            <section>
+                <FooterContainer className='main-footer'>
+                    <div className='footer-middle'>
+                        <div className='container'>
+                            <div className='row'>
+                                <div className='col-md-3 col-sm-6'>
+                                    {/* Column 1 */}
+                                    <h4>Category</h4>
+                                    <ul className='list-unstyled'>
+                                        <li><a href='/Men'>Men</a></li>
+                                        <li><a href='/Women'>Women</a></li>
+                                    </ul>
+                                </div>
+                                <div className='col-md-3 col-sm-6'>
+                                    {/* Column 2 */}
+                                    <h4>Company</h4>
+                                    <ul className='list-unstyled'>
+                                        <li><a href='/'>About Us</a></li>
+                                        <li><a href='/'>Contact Us</a></li>
+                                        <li><a href='/'>FAQ's</a></li>
+                                    </ul>
+                                </div>
+                                <div className='col-md-3 col-sm-6'>
+                                    {/* Column 3 */}
+                                    <h4>Policy Info</h4>
+                                    <ul className='list-unstyled'>
+                                        <li><a href='/'>Terms & Conditions</a></li>
+                                        <li><a href='/'>Shipping & Delivery</a></li>
+                                        <li><a href='/'>Refunds & Returns</a></li>
+                                        <li><a href='/'>Privacy Policy</a></li>
+                                    </ul>
+                                </div>
+                                <div className='col-md-3 col-sm-6'>
+                                    {/* Column 4 */}
+                                    <h4>Like Being First ?</h4>
+                                    <ul className='list-unstyled'>
+                                        <li>Sign up for our newsletter and get 10% off on your first order!</li>
+                                        <Link style={{ textDecoration: 'none' }} to='/Signup'>
+                                        <button className="btn btn-style">Sign up</button>
+                                    </Link>
+                                    </ul>
+                                </div>
                             </div>
-                            <div className='col-md-3 col-sm-6'>
-                                {/* Column 2 */}
-                                <h4>Lorem ipsum</h4>
-                                <ul className='list-unstyled'>
-                                    <li><a href='/'>Lorem ipsum</a></li>
-                                    <li><a href='/'>Lorem ipsum</a></li>
-                                    <li><a href='/'>Lorem ipsum</a></li>
-                                    <li><a href='/'>Lorem ipsum</a></li>
-                                </ul>
-                            </div>
-                            <div className='col-md-3 col-sm-6'>
-                                {/* Column 3 */}
-                                <h4>Lorem ipsum</h4>
-                                <ul className='list-unstyled'>
-                                    <li><a href='/'>Lorem ipsum</a></li>
-                                    <li><a href='/'>Lorem ipsum</a></li>
-                                    <li><a href='/'>Lorem ipsum</a></li>
-                                    <li><a href='/'>Lorem ipsum</a></li>
-                                </ul>
-                            </div>
-                            <div className='col-md-3 col-sm-6'>
-                                {/* Column 4 */}
-                                <h4>Lorem ipsum</h4>
-                                <ul className='list-unstyled'>
-                                    <li><a href='/'>Lorem ipsum</a></li>
-                                    <li><a href='/'>Lorem ipsum</a></li>
-                                    <li><a href='/'>Lorem ipsum</a></li>
-                                    <li><a href='/'>Lorem ipsum</a></li>
-                                </ul>
-                            </div>
-                        </div>
 
-                        {/* Footer Bottom */}
-                        <div className='footer-bottom'>
-                            <p className='text-xs-center'>
-                                &copy;{new Date().getFullYear()} Style Clothing Website - All Rights Resvered
-                            </p>
+                            {/* Footer Bottom */}
+                            <div className='footer-bottom'>
+                                <p className='text-xs-center'>
+                                    &copy;{new Date().getFullYear()} StylClos - All Rights Resvered
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </FooterContainer>
+                </FooterContainer>
+            </section>
         </>
 
     )
@@ -85,10 +85,11 @@ const FooterContainer = styled.footer`
     }
 
     ul li a {
-        color: var(--mainGrey);
+        color: var(--mainLightGrey);
+        text-decoration: none;
     }
 
     ul li a:hover {
-        color: var(--mainLightGrey);
+        color: var(--mainWhite);
     }
 `;

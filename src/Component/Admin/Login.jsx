@@ -7,7 +7,7 @@ function Login() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [role] = useState('CUSTOMER');
+    const [role] = useState('ADMIN');
     const nav = useNavigate();
 
     const signin = (e) => {
