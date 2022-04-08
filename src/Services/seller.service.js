@@ -20,4 +20,8 @@ const signup = (data) => {
   return httpClient.post('/user/signup', data);
 }
 
-export default { getAll, get, update, signin, signup };
+const getProductBasedOnSeller = (id) => {
+  return httpClient.get('/seller/getproducts/' + id);
+} 
+
+export default { getAll, get, update, signin, signup, getProductBasedOnSeller };

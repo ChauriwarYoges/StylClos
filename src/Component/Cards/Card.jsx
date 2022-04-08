@@ -10,7 +10,7 @@ const Card = (props) => {
             <Link  to={'/ProductDetailedPage/' + props.id}>
                 <div className="cards">
                     <div className="card_image">
-                        <img src={props.imgsrc} height={400} width={200} alt="loading failed" />
+                        <img src={`data:${props.imgType};base64,${props.imgsrc}`} height={400} width={200} alt="loading failed" />
                     </div>
                     <div className="card_title">
                         <span className="card_category">{props.title}</span>
