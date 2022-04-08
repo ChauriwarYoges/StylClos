@@ -3,7 +3,7 @@ const NewCollection = [
         imgsrc: 'images/blackJacket1.jpg',
         title: 'Women\'s Jacket',
         sname: 'jvfjn',
-        link: 'https://www.youtube.com'
+        link: 'https://www.youtube.com/'
     },
 
     {

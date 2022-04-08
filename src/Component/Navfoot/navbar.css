@@ -13,7 +13,7 @@
     position: relative;
 }
 
-.form-control {
+.form-control1 {
     position: relative;
     height: 2.5rem;
     width: 25rem;
@@ -85,6 +85,17 @@
     align-items: center;
     justify-content: center;
     transition: .3s;
+}
+
+.cart-btn {
+    background-color: transparent;
+    border: none;
+    color: var(--primary-color);
+    transition: .3s ease-in-out;
+}
+
+.cart-btn:hover {
+    color: orange;
 }
 
 .btn-style:first-child {
