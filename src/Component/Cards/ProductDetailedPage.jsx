@@ -8,31 +8,19 @@ import Unauthorized from '../Unauthorized';
 const ProductDetailedPage = () => {
 
     let { id } = useParams();
-    let [product, setProduct] = useState(null);
-    let [data, setData] = useState(null);
+    let [product, setProduct] = useState([]);
 
     useEffect(() => {
         console.log("product id : " + id);
         productService.getProductById(id)
             .then(response => {
                 console.log(response.data);
-                product = (response.data);
+                setProduct(response.data);
                 console.log("product details : " + product);
-                productService.getImage(product.image)
-                    .then(response => {
-                        console.log(response.data);
-                        data = (response.data);
-                        console.log("image name : " + data.name);
-                    })
-                    .catch(err => {
-                        console.log("in err image : " + err);
-                    });
             })
             .catch(err => {
                 console.log("in err : " + err);
             });
-
-
     }, [])
 
 
@@ -62,7 +50,7 @@ const ProductDetailedPage = () => {
                             </ul>
                         </div>
                         <div className="col-md-7"> 
-                        <img src={`data:image/jpg;base64,${(data) ? data.imgData : null}`} alt={(data) ? data.name : null} width="90%" height="95%" /> </div>
+                        <img src={`data:image/jpg;base64,${product.imgData}`} alt={product.name} width="90%" height="95%" /> </div>
                     </div>
                 </div>
                 <div className="footer d-flex flex-column mt-5">

@@ -34,7 +34,8 @@ const Collection = () => {
                                 products.map((p) => {
                                     return (<Card key={p.id}
                                         id = {p.id}
-                                        imgsrc={p.image}
+                                        imgType = {p.imgType}
+                                        imgsrc={p.imgData}
                                         title={p.category.category + " " + p.type.typeName}
                                         sname={p.title}
                                         link={p.size}
@@ -45,17 +46,6 @@ const Collection = () => {
                                 null
                         }
 
-                    </div>
-
-                    <div className="collection-container" style={{ display: 'flex', flexWrap: 'wrap' }}>
-                        {NewCollection.map((val) => {
-                            return (<Card
-                                imgsrc={val.imgsrc}
-                                title={val.title}
-                                sname={val.sname}
-                                link={val.link}
-                            />);
-                        })}
                     </div>
 
                 </div>

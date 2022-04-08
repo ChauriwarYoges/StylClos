@@ -70,7 +70,7 @@ const App = () => {
                 <Route path="/seller/home" element={<SellerProtectedRoute Cmp={SellerHome} />} />
                 <Route path='/seller' element={<SellerProtectedRoute Cmp={SellerHome} />} />
                 <Route path="/seller/addproduct" element={<SellerProtectedRoute Cmp={Addproduct} />} />
-                <Route path="/seller/edit/:id" element={<SellerProtectedRoute Cmp={Editproduct} />} />
+                <Route path="/seller/productedit/:id" element={<SellerProtectedRoute Cmp={Editproduct} />} />
                 <Route path="/seller/delete/:id" element={<SellerProtectedRoute Cmp={SellerHome} />} />
 
                 { /* Admin Routes */}
