@@ -44,7 +44,7 @@ const Footer = () => {
                                     <ul className='list-unstyled'>
                                         <li>Sign up for our newsletter and get 10% off on your first order!</li>
                                         <Link style={{ textDecoration: 'none' }} to='/Signup'>
-                                        <button className="btn btn-style">Sign up</button>
+                                        <button className="checkoutbtn">Sign up</button>
                                     </Link>
                                     </ul>
                                 </div>

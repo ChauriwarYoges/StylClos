@@ -7,7 +7,7 @@ import './cards.css';
 const Card = (props) => {
     return (
         <>
-            <Link  to={'/ProductDetailedPage'}>
+            <Link  to={'/ProductDetailedPage/' + props.id}>
                 <div className="cards">
                     <div className="card_image">
                         <img src={props.imgsrc} height={400} width={200} alt="loading failed" />

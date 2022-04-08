@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import userService from "../../Services/user.service";
 
@@ -8,11 +8,17 @@ function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [role] = useState('ADMIN');
+    let [loading, setLoading] = useState(false);
     const nav = useNavigate();
+    let [userState, setUserState] = useState(null); 
+
+    useEffect(() => {
+        localStorage.setItem('user', JSON.stringify(userState));
+    }, [userState])
 
     const signin = (e) => {
         e.preventDefault();
-
+        loading = setLoading(true);
         const user = {email, password, role};
 
         if(email) {
@@ -20,14 +26,17 @@ function Login() {
                 .then(response => {
                     alert(response.data.role);
                     console.log("login successful", response.data);
-                    //nav("/");
+                    userState = setUserState(response.data);
+                    nav("/admin/home");
                     return true;
                 })
                 .catch(error => {
+                    loading = setLoading(false);
                     alert("Invalid email/password");
                 });
         }
         else {
+            loading = setLoading(false);
             alert("Invalid email/password");
         }
         return false;
@@ -41,11 +50,11 @@ function Login() {
                         <div className="card shadow-2-strong" style={{ borderRadius: '1rem' }}>
                             <div className="card-body p-5 text-center">
 
-                                <h3 className="mb-5">Login</h3>
+                                <h3 className="mb-5">Admin Login</h3>
                                 <form action="/home" onSubmit={(e) => signin(e)}>
                                     <div className="form-outline mb-4">
                                         <label className="form-label" htmlFor="typeEmailX-2">Email</label>
-                                        <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} className="form-control form-control-lg" />
+                                        <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} className="form-control form-control-lg" autoFocus />
                                     </div>
 
                                     <div className="form-outline mb-4">
@@ -64,7 +73,12 @@ function Login() {
                                         <label className="form-check-label" htmlFor="form1Example3"> &emsp;Remember Me </label>
                                     </div>
 
-                                    <button type="submit" className="btn btn-primary btn-lg btn-block">Login</button>
+                                    <button type="submit" className="btn btn-primary btn-lg btn-block" disabled={loading}>
+                                        {loading && (
+                                            <span className="spinner-border spinner-border-sm"></span>
+                                        )}
+                                        <span>&emsp; Login &emsp;</span>
+                                        </button>
                                 </form>
                             </div>
                         </div>

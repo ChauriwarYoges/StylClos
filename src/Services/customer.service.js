@@ -5,8 +5,12 @@ const getAll = () => {
 };
 
 const get = (id) => {
-  return httpClient.get('/customer',id);
+  return httpClient.get('/user/' + id);
 };
+
+const getAddress = (id) => {
+  return httpClient.get('/user/address/'+ id);
+}
 
 const update = (data) => {
   return httpClient.put('', data);
@@ -20,4 +24,8 @@ const signup = (data) => {
   return httpClient.post('/customer/signup', data);
 }
 
-export default { getAll, get, update, signin, signup };
+const updateProfile = (data) => {
+  return httpClient.post('/user/updateprofile', data);
+}
+
+export default { getAll, get, update, signin, signup, getAddress, updateProfile };

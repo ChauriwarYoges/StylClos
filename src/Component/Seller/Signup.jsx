@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import customerService from '../../Services/seller.service';
+import sellerService from '../../Services/seller.service';
 
 function Signup() {
     const matchPass = () => {
@@ -38,24 +38,23 @@ function Signup() {
 
     const [email, setEmail] = useState(null);
     const [name, setName] = useState(null);
-    const [registerDate, setRegisterDate] = useState(null);
+    const [registerDate] = useState(null);
     const [password, setPassword] = useState(null);
     const [confirmPassword, setConfirmPassword] = useState(null);
     const [address] = useState(null);
+    const [role] = useState('SELLER');
     const history = useNavigate();
 
     const register = (e) => {
         e.preventDefault();
 
-        const customer = { email, name, registerDate, password, confirmPassword, address };
-        setRegisterDate('2022-03-28');
-
+        const customer = { email, name, registerDate, password, role, confirmPassword, address };
 
         let status = false;
         if (email && matchPass()) {
-            customerService.get(email)
+            sellerService.get(email)
                 .then(response => {
-                    console.log("Email already exists");
+                    console.log("Email already exists : " + email);
                     alert("entered email is already registered");
                     status = true;
                 });
@@ -65,11 +64,11 @@ function Signup() {
 
             if (!status) {
                 console.log(customer);
-                customerService.signup(customer)
+                sellerService.signup(customer)
                     .then(response => {
                         alert("registration succesful");
                         console.log("registration sucessful");
-                        history("/home");
+                        history("/seller/home");
                     })
                     .catch(error => {
                         console.log("something went wrong while registration of new customer");

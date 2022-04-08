@@ -43,12 +43,13 @@ function Signup() {
     const [password, setPassword] = useState(null);
     const [confirmPassword, setConfirmPassword] = useState(null);
     const [address] = useState(null);
+    const [role] = useState('CUSTOMER');
     const history = useNavigate();
 
     const register = (e) => {
         e.preventDefault();
 
-        const customer = { email, name, registerDate, password, confirmPassword, address };
+        const customer = { email, name, registerDate, password, confirmPassword, address, role };
         setRegisterDate('2022-03-28');
 
 
