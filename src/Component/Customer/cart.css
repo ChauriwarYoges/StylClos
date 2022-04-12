@@ -162,6 +162,9 @@ input:focus::-webkit-input-placeholder {
 
 .cartA {
     text-decoration: none;
+    background-color: #fff;
+    border: none;
+    font-weight: 600;
     color: black
 }
 

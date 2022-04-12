@@ -5,7 +5,7 @@ const AdminProtectedRoute = (props) => {
 
     let nav = useNavigate();
     let Cmp = props.Cmp;
-    let user = JSON.parse(localStorage.getItem('user'));
+    let user = JSON.parse(sessionStorage.getItem('user'));
 
     useEffect(() => {
         // console.log("Admin ProtectedRoute : " + user.role);
@@ -21,7 +21,7 @@ const AdminProtectedRoute = (props) => {
                 nav("/seller/home");
         }
 
-    });
+    }, []);
 
     return (<>
         <Cmp />

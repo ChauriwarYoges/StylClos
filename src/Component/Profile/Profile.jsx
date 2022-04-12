@@ -1,11 +1,11 @@
 import './profile.css';
 import { useState, useEffect } from 'react';
-import customerService from '../../Services/customer.service';
+import userService from '../../Services/user.service';
 import { useNavigate } from 'react-router-dom';
-import Logout from '../Form/Logout';
+import Verifypopup from './Verifypopup';
 
 const getLocalItems = () => {
-    let list = localStorage.getItem('user');
+    let list = sessionStorage.getItem('user');
     console.log("Profile : " + list);
 
     if (list)
@@ -15,22 +15,19 @@ const getLocalItems = () => {
     }
 }
 
-
 const Profile = () => {
 
     let [user] = useState(getLocalItems());
 
     const nav = useNavigate();
-    let [userState, setUserState] = useState(null);
+    let [userState, setUserState] = useState();
 
-    let [address, setAddress] = useState( null );
+    let [address, setAddress] = useState([]);
 
-    function fetchAddress(user) {
-        if(user == null)
-            return null;
+    async function fetchAddress(user) {
 
         console.log("fetchAddress : " + (user != null) + " " + user.name);
-        customerService.getAddress(user.id)
+        userService.getAddress(user.id)
             .then(response => {
                 setAddress(response.data);
             })
@@ -40,11 +37,12 @@ const Profile = () => {
     }
 
     useEffect(() => {
-        if(user != null)
+        // if(user == null)
+        //     nav('/login');
         fetchAddress(user);
     }, [])
 
-    
+
 
     // TO TOGGLE EDIT AND SAVE BUTTONS
     let [editBtn, setEditBtn] = useState(true);
@@ -52,49 +50,46 @@ const Profile = () => {
 
     let [userId] = useState((user) ? user.id : null);
     let [name, setName] = useState((user) ? user.name : null);
-    let [addId] = useState((address) ? address.id : null);
-    let [areaName, setAreaName] = useState((address) ? address.areaName : null);
-    let [city, setCity] = useState((address) ? address.city : null);
-    let [state, setState] = useState((address) ? address.state : null);
-    let [country, setCountry] = useState((address) ? address.country : null);
-    let updatedData = { userId, name, addId, areaName, city, state, country };
-
-
+    let [addId] = useState(address.id);
+    let [areaName, setAreaName] = useState(address.areaName);
+    let [city, setCity] = useState(address.city);
+    let [state, setState] = useState(address.state);
+    let [country, setCountry] = useState(address.country);
+    let [updatedData, setUpdatedData] = useState(null);
 
     function edit() {
         console.log("in edit() " + details + " " + editBtn);
         setEditBtn(!editBtn);
         setDetails(!details);
         console.log("leaving edit() " + details + " " + editBtn);
+        console.log("updatedData : " + areaName + " address : " + address.areaName);
     }
 
     function saveChanges(e) {
         e.preventDefault();
 
-        console.log(updatedData);
+        updatedData = { userId, name, addId, areaName, city, state, country };
 
-        customerService.updateProfile(updatedData)
+        console.log("updated data : " + updatedData);
+
+        userService.updateProfile(updatedData)
             .then(response => {
                 alert("Profile Updated Successfully");
                 console.log(response.data);
-                customerService.get(user.email)
+
+                // UPDATES SESSION STORAGE
+                userService.get(user.email)
                     .then(response => {
-                        setUserState(response.data);
-                        nav("/profile");
+                        userState = (response.data);
+                        console.log("updating session Storage : ", response.data, " user state : ", userState);
+                        sessionStorage.setItem('user', JSON.stringify(userState));
+                        window.location.reload();
                     })
-                    .catch(err => {
-                        console.log("Unable to update : " + err);
-                        if (!err?.response) {
-                            alert('No Server Response');
-                        } else if (err.response?.status === 400) {
-                            alert('Bad Request');
-                        } else if (err.response?.status === 401) {
-                            alert('Unauthorized');
-                        } else {
-                            alert('Data retrival usnsuccessful');
-                        }
+                    .catch(error => {
+                        console.log("Error while updating console : " + error);
                     });
-                edit();
+
+
             })
             .catch(err => {
                 console.log("Unable to update : " + err);
@@ -110,8 +105,11 @@ const Profile = () => {
             });
     }
 
+    let [overlay, setOverlay] = useState(false);
     function deactivate() {
         console.log("Deactivation process in progress");
+        setOverlay(true);
+
     }
 
     const handleLogout = () => {
@@ -120,7 +118,13 @@ const Profile = () => {
 
 
     return (<>
+        
         <div className='profilepage'>
+        {
+            overlay ? <div id="overlay">
+            <h1>HI there {user.role}</h1>
+        </div> : null
+        }
             <div className="container rounded bg-white mt-5 mb-5">
                 <div className="row">
                     <div className="col-md-3 border-right">
@@ -139,66 +143,71 @@ const Profile = () => {
                                             <h4 className="text-right">Account Details</h4>
                                         </div>
                                         <div className="row mt-2">
-                                            <div className="col-md-6"><label className="labels">Name</label><input type="text" className="form-control" placeholder="first name" onChange={(e) => setName(e.target.value)} value={(user) ? user.name : ""} readOnly /></div>
+                                            <div className="col-md-6"><label className="labels">Name</label><input type="text" className="form-control" placeholder="first name" value={name} readOnly /></div>
                                         </div>
                                         <div className="row mt-3">
-                                            <div className="col-md-12"><label className="labels">Area</label><input type="text" className="form-control" placeholder="enter address line" onChange={(e) => setAreaName(e.target.value)} value={(address) ? address.areaName : ""} readOnly /></div>
-                                            <div className="col-md-12"><label className="labels">City</label><input type="text" className="form-control" placeholder="enter address line" onChange={(e) => setCity(e.target.value)} value={(address) ? address.city : ""} readOnly /></div>
+                                            <div className="col-md-12"><label className="labels">Area</label><input type="text" className="form-control" placeholder="enter address line" value={address.areaName} readOnly /></div>
+                                            <div className="col-md-12"><label className="labels">City</label><input type="text" className="form-control" placeholder="enter address line" value={address.city} readOnly /></div>
                                         </div>
                                         <div className="row mt-3">
-                                            <div className="col-md-6"><label className="labels">State</label><input type="text" className="form-control" onChange={(e) => setState(e.target.value)} value={(address) ? address.state : ""} placeholder="state" readOnly /></div>
-                                            <div className="col-md-6"><label className="labels">Country</label><input type="text" className="form-control" placeholder="country" onChange={(e) => setCountry(e.target.value)} value={(address) ? address.country : ""} readOnly /></div>
+                                            <div className="col-md-6"><label className="labels">State</label><input type="text" className="form-control" value={address.state} placeholder="state" readOnly /></div>
+                                            <div className="col-md-6"><label className="labels">Country</label><input type="text" className="form-control" placeholder="country" value={address.country} readOnly /></div>
                                         </div>
                                     </>
                                     :
-                                        <form onSubmit={(e) => saveChanges(e)}>
-                                            <div className="d-flex justify-content-between align-items-center mb-3">
-                                                <h4 className="text-right">Edit Details</h4>
+                                    <form onSubmit={(e) => saveChanges(e)}>
+                                        <div className="d-flex justify-content-between align-items-center mb-3">
+                                            <h4 className="text-right">Edit Details</h4>
+                                        </div>
+                                        <div className="row mt-2">
+                                            <div className="col-md-6">
+                                                <label className="labels">Name</label>
+                                                <input type="text" name='name' className="form-control" value={name} onChange={(e) => setName(e.target.value)} autoFocus />
                                             </div>
-                                            <div className="row mt-2">
-                                                <div className="col-md-6">
-                                                    <label className="labels">Name</label>
-                                                    <input type="text" name='name' className="form-control" value={(user) ? user.name : null} onChange={(e) => setName(e.target.value)} autoFocus />
-                                                </div>
+                                        </div>
+                                        <div className="row mt-3">
+                                            <div className="col-md-12">
+                                                <label className="labels">Area</label>
+                                                <input type="text" name='area' className="form-control" value={areaName} onChange={(e) => setAreaName(e.target.value)} />
                                             </div>
-                                            <div className="row mt-3">
-                                                <div className="col-md-12">
-                                                    <label className="labels">Area</label>
-                                                    <input type="text" name='area' className="form-control" value={(address) ? address.areaName : null} onChange={(e) => setAreaName(e.target.value)} />
-                                                </div>
-                                                <div className="col-md-12">
-                                                    <label className="labels">City</label>
-                                                    <input type="text" name='city' className="form-control" value={(address) ? address.city : null} onChange={(e) => setCity(e.target.value)} />
-                                                </div>
+                                            <div className="col-md-12">
+                                                <label className="labels">City</label>
+                                                <input type="text" name='city' className="form-control" placeholder={city} onChange={(e) => setCity(e.target.value)} />
                                             </div>
-                                            <div className="row mt-3">
-                                                <div className="col-md-6">
-                                                    <label className="labels">State</label>
-                                                    <input type="text" name='state' className="form-control" onChange={(e) => setState(e.target.value)} value={(address) ? address.state : null} />
-                                                </div>
-                                                <div className="col-md-6">
-                                                    <label className="labels">Country</label>
-                                                    <input type="text" name='country' className="form-control" value={(address) ? address.country : null} onChange={(e) => setCountry(e.target.value)} />
-                                                </div>
+                                        </div>
+                                        <div className="row mt-3">
+                                            <div className="col-md-6">
+                                                <label className="labels">State</label>
+                                                <input type="text" name='state' className="form-control" onChange={(e) => setState(e.target.value)} placeholder={state} />
                                             </div>
-                                            <div className="mt-5 text-center">
-                                                <button className="btn btn-primary profile-button" type="submit">Save Profile</button>
-                                                &emsp;
-                                                <button className="btn btn-primary cancel-button" onClick={edit} type="button">Cancel</button>
+                                            <div className="col-md-6">
+                                                <label className="labels">Country</label>
+                                                <input type="text" name='country' className="form-control" placeholder={country} onChange={(e) => setCountry(e.target.value)} />
                                             </div>
-                                        </form>
-
+                                        </div>
+                                        <div className="mt-5 text-center">
+                                            <button className="btn btn-primary profile-button" type="submit">Save Profile</button>
+                                            &emsp;
+                                            <button className="btn btn-primary cancel-button" onClick={edit} type="button">Cancel</button>
+                                        </div>
+                                    </form>
                             }
                         </div>
                         {
                             editBtn ?
-                                <div className='col-md-2 border-right' id='profileEdit' >
+                                <div className='col-md-7 border-right' id='profileEdit' >
                                     <button className="btn btn-primary" onClick={edit} style={{ backgroundColor: "mediumseagreen", marginBottom: "10px" }}>
                                         <i className='far fa-edit' style={{ fontSize: "18px", color: "white" }} />
                                     </button> &emsp;
-                                    <button className="btn btn-primary cancel-button" onClick={deactivate} type="button">Deactivate</button>
-                                    
-                                    <button style={{float:'right'}} className="btn btn-primary logout-button" onClick={handleLogout} type="button">LOG OUT</button>
+                                    {
+                                        (user && user.role == 'ADMIN')
+                                            ?
+                                            null
+                                            :
+                                            <button className="btn btn-primary logout-button" onClick={deactivate} type="button">Deactivate</button>
+                                    }
+                                    &nbsp;
+                                    <button style={{ float: 'right', marginBottom: "10px" }} className="btn btn-primary logout-button" onClick={handleLogout} type="button">LOGOUT</button>
                                 </div>
                                 : null
                         }

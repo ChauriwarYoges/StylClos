@@ -15,27 +15,28 @@ const Footer = () => {
                                     {/* Column 1 */}
                                     <h4>Category</h4>
                                     <ul className='list-unstyled'>
-                                        <li><a href='/Men'>Men</a></li>
-                                        <li><a href='/Women'>Women</a></li>
+                                        <li><a href='/Mens'>Mens</a></li>
+                                        <li><a href='/Womens'>Womens</a></li>
                                     </ul>
                                 </div>
                                 <div className='col-md-3 col-sm-6'>
                                     {/* Column 2 */}
                                     <h4>Company</h4>
                                     <ul className='list-unstyled'>
-                                        <li><a href='/'>About Us</a></li>
-                                        <li><a href='/'>Contact Us</a></li>
-                                        <li><a href='/'>FAQ's</a></li>
+                                        <li><a href='/admin'>Admin Login</a></li>
+                                        <li><a href='/Aboutus'>About Us</a></li>
+                                        <li><a href='/Contactus'>Contact Us</a></li>
+                                        <li><a href='/faq'>FAQ's</a></li>
                                     </ul>
                                 </div>
                                 <div className='col-md-3 col-sm-6'>
                                     {/* Column 3 */}
                                     <h4>Policy Info</h4>
                                     <ul className='list-unstyled'>
-                                        <li><a href='/'>Terms & Conditions</a></li>
-                                        <li><a href='/'>Shipping & Delivery</a></li>
-                                        <li><a href='/'>Refunds & Returns</a></li>
-                                        <li><a href='/'>Privacy Policy</a></li>
+                                        <li><a href='/termsandcondition'>Terms & Conditions</a></li>
+                                        <li><a href='/ship-delivery'>Shipping & Delivery</a></li>
+                                        <li><a href='/refunds-returns'>Refunds & Returns</a></li>
+                                        <li><a href='/privacy-policy'>Privacy Policy</a></li>
                                     </ul>
                                 </div>
                                 <div className='col-md-3 col-sm-6'>
@@ -44,8 +45,8 @@ const Footer = () => {
                                     <ul className='list-unstyled'>
                                         <li>Sign up for our newsletter and get 10% off on your first order!</li>
                                         <Link style={{ textDecoration: 'none' }} to='/Signup'>
-                                        <button className="checkoutbtn">Sign up</button>
-                                    </Link>
+                                            <button className="checkoutbtn">Sign up</button>
+                                        </Link>
                                     </ul>
                                 </div>
                             </div>

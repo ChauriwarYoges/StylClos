@@ -13,7 +13,7 @@ function Login() {
     let [userState, setUserState] = useState(null); 
 
     useEffect(() => {
-        localStorage.setItem('user', JSON.stringify(userState));
+        sessionStorage.setItem('user', JSON.stringify(userState));
     }, [userState])
 
     const signin = (e) => {
@@ -26,9 +26,8 @@ function Login() {
                 .then(response => {
                     alert(response.data.role);
                     console.log("login successful", response.data);
-                    userState = setUserState(response.data);
+                    setUserState(response.data);
                     nav("/admin/home");
-                    return true;
                 })
                 .catch(error => {
                     loading = setLoading(false);
@@ -63,7 +62,7 @@ function Login() {
                                     </div>
 
                                     {/*Checkbox*/}
-                                    <div className="form-check d-flex justify-content-start mb-4">
+                                    {/* <div className="form-check d-flex justify-content-start mb-4">
                                         <input
                                             className="form-check-input"
                                             type="checkbox"
@@ -71,7 +70,7 @@ function Login() {
                                             id="form1Example3"
                                         />
                                         <label className="form-check-label" htmlFor="form1Example3"> &emsp;Remember Me </label>
-                                    </div>
+                                    </div> */}
 
                                     <button type="submit" className="btn btn-primary btn-lg btn-block" disabled={loading}>
                                         {loading && (

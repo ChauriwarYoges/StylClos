@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import sellerService from '../../Services/seller.service';
+import userService from '../../Services/user.service';
 
 function Signup() {
     const matchPass = () => {
@@ -52,7 +52,7 @@ function Signup() {
 
         let status = false;
         if (email && matchPass()) {
-            sellerService.get(email)
+            userService.get(email)
                 .then(response => {
                     console.log("Email already exists : " + email);
                     alert("entered email is already registered");
@@ -64,7 +64,7 @@ function Signup() {
 
             if (!status) {
                 console.log(customer);
-                sellerService.signup(customer)
+                userService.signup(customer)
                     .then(response => {
                         alert("registration succesful");
                         console.log("registration sucessful");
@@ -77,7 +77,7 @@ function Signup() {
         }
     }
     return (<>
-        <section className="vh-100" style={{ backgroundColor: '#eee' }}>
+        <section className="vh-10" style={{ backgroundColor: '#eee', padding: "20px" }}>
             <div className="container h-100">
                 <div className="row d-flex justify-content-center align-items-center h-100">
                     <div className="col-lg-12 col-xl-11">
@@ -86,7 +86,7 @@ function Signup() {
                                 <div className="row justify-content-center">
                                     <div className="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
 
-                                        <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
+                                        <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4"> Seller Register</p>
 
                                         <form className="mx-1 mx-md-4">
 
@@ -143,7 +143,7 @@ function Signup() {
                                     </div>
                                     <div className="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
 
-                                        <img src="images/form/signupImage.webp" className="img-fluid" alt="Sample image" />
+                                        <img src="../images/form/signupImage.webp" className="img-fluid" alt="Sample image" />
 
                                     </div>
                                 </div>

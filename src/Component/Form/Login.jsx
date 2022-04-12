@@ -19,7 +19,7 @@ function Login() {
     let [userState, setUserState] = useState(null); 
 
     useEffect(() => {
-        localStorage.setItem('user', JSON.stringify(userState));
+        sessionStorage.setItem('user', JSON.stringify(userState));
     }, [userState])
 
     const signin = (e) => {
@@ -33,8 +33,7 @@ function Login() {
                     alert(response.data.role);
                     console.log("login successful", response.data);
                     loading = setLoading(false);
-                    userState = setUserState(response.data);
-                    
+                    setUserState(response.data);
                     nav(from, { replace : true });
                 })
                 .catch(err => {

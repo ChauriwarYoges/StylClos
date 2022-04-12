@@ -32,5 +32,14 @@ const getProductById = (id) => {
   return httpClient.get("/product/" + id);
 } 
 
+const getProductsByCategory = (category) => {
+  return httpClient.get('/product/sort/' + category)
+}
 
-export default { getAll, get, update, getAllCategories, getAllTypesinCategory, addNewProduct, getImage, getProductById };
+const deleteProductById = (id) => {
+  return httpClient.get('/product/deleteproduct/' + id);
+}
+
+
+export default { getAll, get, update, getAllCategories, getAllTypesinCategory, addNewProduct, getImage, getProductById,
+                  getProductsByCategory, deleteProductById };

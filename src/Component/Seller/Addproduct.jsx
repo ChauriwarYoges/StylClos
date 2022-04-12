@@ -6,7 +6,7 @@ import FormData from 'form-data';
 import './home.css';
 
 function getLocalItems() {
-    let list = JSON.parse(localStorage.getItem('user'));
+    let list = JSON.parse(sessionStorage.getItem('user'));
 
     if (list)
         return list;
@@ -17,7 +17,7 @@ function getLocalItems() {
 function getProductDetails() {
     let products = JSON.parse(sessionStorage.getItem('prodtls'));
 
-    if(products)
+    if (products)
         return products;
     else
         return null;
@@ -39,7 +39,8 @@ const Addproduct = () => {
     let [email] = useState((user) ? user.email : null);
     let [allCategories, setAllCategories] = useState(null);
     let [allType, setAllType] = useState(null);
-    let [ proDtls ] = useState(getProductDetails()); 
+    let [proDtls] = useState(getProductDetails());
+    let [imagePrev, setImagePrev] = useState(null);
 
     useEffect(() => {
         productService.getAllCategories()
@@ -51,7 +52,11 @@ const Addproduct = () => {
                 console.log(err);
             });
     }, [])
- 
+
+    const toHome = () => {
+        nav('/seller/home');
+    }
+
     const onSubmitProduct = (e) => {
         e.preventDefault();
         let productDetails = { title, category, type, size, qty, price, email };
@@ -60,32 +65,40 @@ const Addproduct = () => {
         formData.append('productDetails', JSON.stringify(productDetails));
 
         console.log("productData : " + formData);
-        // console.log("imageData : " + imageData);
 
         productService.addNewProduct(formData)
             .then(response => {
                 console.log("onsubmit : " + response.data);
-                if(response.data == false) {
+                if (response.data == false) {
                     alert("PRODUCT FAILED TO ADD");
                     sessionStorage.setItem('prodtls', JSON.stringify(productDetails));
                     window.location.reload();
                 }
-                if(response.data) {
+                if (response.data) {
                     sessionStorage.setItem('prodtls', null);
                     nav("/seller/home");
                 }
             })
             .catch(err => {
-                console.log(err);
+                console.log("Error while add new product : ", err);
             });
 
-        }
+    }
 
     const onFileChange = (e) => {
         console.log(e.target.files[0]);
+        let file = e.target.files[0];
 
         if (e.target && e.target.files[0]) {
             formData.append('imageData', e.target.files[0]);
+
+            // CODES TO PREVIEW IMAGE WHILE UPLOADING IMAGE 
+            // const reader = new FileReader();
+            // reader.onload = () => {
+            //     if (reader.readyState === 2) 
+            //         setImagePrev(reader.result);
+            // }
+            // reader.readAsDataURL(file);
         }
     }
 
@@ -114,7 +127,7 @@ const Addproduct = () => {
                 {
                     (data != null) ?
                         data.map(d =>
-                            <option value={d.id} >{d.category}</option>
+                            <option value={d.id} key={d.id} >{d.category}</option>
                         )
                         :
                         null
@@ -133,7 +146,7 @@ const Addproduct = () => {
                 {
                     allType ?
                         allType.map(d =>
-                            <option value={d.id}>{d.typeName}</option>
+                            <option value={d.id} key={d.id}>{d.typeName}</option>
                         )
                         :
                         null
@@ -155,12 +168,12 @@ const Addproduct = () => {
                                 <form>
                                     {/* PRODUCT NAME */}
                                     <div className="form-outline mb-4">
-                                        <label for="exampleInputEmail1">Product name</label>
-                                        <input type="text" name='title' value={(proDtls) ? proDtls.title : null } onChange={(e) => setTitle(e.target.value)} className="form-control" autoFocus />
+                                        <label htmlFor="exampleInputEmail1">Product name</label>
+                                        <input type="text" name='title' value={(proDtls) ? proDtls.title : null} onChange={(e) => setTitle(e.target.value)} className="form-control" autoFocus />
                                     </div>
 
                                     <div className="form-outline mb-4">
-                                        <label for="exampleInputPassword1">Product Category</label>
+                                        <label htmlFor="exampleInputPassword1">Product Category</label>
                                         {
                                             (allCategories) ?
                                                 Category(allCategories)
@@ -172,7 +185,7 @@ const Addproduct = () => {
                                     </div>
 
                                     <div className="form-outline mb-4">
-                                        <label for="exampleInputPassword1">Product Type</label>
+                                        <label htmlFor="exampleInputPassword1">Product Type</label>
                                         {
                                             allType ?
                                                 Type(allType)
@@ -184,27 +197,37 @@ const Addproduct = () => {
                                     </div>
 
                                     <div className="form-outline mb-4">
-                                        <label for="exampleInputPassword1">Product Size</label>
+                                        <label htmlFor="exampleInputPassword1">Product Size</label>
                                         <input name='size' type="text" value={(proDtls) ? proDtls.size : null} onChange={(e) => setSize(e.target.value)} className="form-control" />
                                     </div>
 
                                     <div className="form-outline mb-4">
-                                        <label for="exampleInputPassword1">Product Quantity</label>
-                                        <input name = 'qty' type="text" value={(proDtls) ? proDtls.qty : null} onChange={(e) => setQty(e.target.value)} className="form-control" />
+                                        <label htmlFor="exampleInputPassword1">Product Quantity</label>
+                                        <input name='qty' type="text" value={(proDtls) ? proDtls.qty : null} onChange={(e) => setQty(e.target.value)} className="form-control" />
                                     </div>
 
                                     <div className="form-outline mb-4">
-                                        <label for="exampleInputPassword1">Product Price</label>
+                                        <label htmlFor="exampleInputPassword1">Product Price</label>
                                         <input name='price' type="text" value={(proDtls) ? proDtls.price : null} onChange={(e) => setPrice(e.target.value)} className="form-control" />
                                     </div>
 
                                     <div className="form-outline mb-4">
-                                        <label for="exampleInputPassword1">Product Image</label>
-                                        <input type="file" onChange={onFileChange} className="form-control" required />
+                                        <label htmlFor="exampleInputPassword1">Product Image</label>
+                                        <input type="file" onChange={onFileChange} accept="image/*" className="form-control" required /> <br />
+
                                     </div>
 
-                                    <button type="submit" onClick={onSubmitProduct} className="btn btn-primary">Submit</button>
+                                    <center>
+                                        <button type="submit" onClick={onSubmitProduct} className="btn btn-primary profile-button">Submit</button>&emsp;
+                                        <button onClick={toHome} className="btn btn-primary cancel-button" > Cancel </button>
+                                    </center>
                                 </form>
+
+
+                                {/* 
+                                    TRYING TO PREVIEW IMAGE
+                                    <center><img src={imagePrev} alt="" width={"100px"} height={"100px"} /></center>
+                                 */}
                             </fieldset>
                         </div>
                     </div>
