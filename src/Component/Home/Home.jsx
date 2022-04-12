@@ -6,11 +6,7 @@ function Home() {
 
     
     return (<>
-        
-        <Header />
-
         <Collection />
-
     </>);
 }
 

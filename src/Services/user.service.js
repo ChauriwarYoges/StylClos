@@ -28,4 +28,8 @@ const getAddress = (id) => {
   return httpClient.get('/user/address/' + id);
 }
 
-export default { getAll, get, update, signin, signup, updateProfile, getAddress };
+const deactivateCustomer = (id) => {
+  return httpClient.get('/user/deactivate/' + id)
+}
+
+export default { getAll, get, update, signin, signup, updateProfile, getAddress, deactivateCustomer };

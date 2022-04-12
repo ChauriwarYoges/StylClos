@@ -100,8 +100,6 @@ const Edittype = () => {
     }
 
     return (<>
-        <h2>EDIT TYPE</h2>
-
         <section className="vh-10" style={{ backgroundColor: '#eee' }}>
             <div className="container py-5 h-50">
                 <div className="row d-flex justify-content-center align-items-center h-100">

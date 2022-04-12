@@ -2,7 +2,7 @@ import './profile.css';
 import { useState, useEffect } from 'react';
 import userService from '../../Services/user.service';
 import { useNavigate } from 'react-router-dom';
-import Verifypopup from './Verifypopup';
+import sellerService from '../../Services/seller.service';
 
 const getLocalItems = () => {
     let list = sessionStorage.getItem('user');
@@ -107,8 +107,37 @@ const Profile = () => {
 
     let [overlay, setOverlay] = useState(false);
     function deactivate() {
-        console.log("Deactivation process in progress");
-        setOverlay(true);
+        if(user.role == 'CUSTOMER') {
+            userService.deactivateCustomer(user.id)
+                .then(response => {
+                    if(response.data) {
+                        sessionStorage.setItem('user', null);
+                        alert("!! DEACTIVATION SUCCESSFUL !!");
+                        window.location.reload();
+                    }
+                })
+                .catch(err => {
+                    console.log("err while deactivating customer : " + err);
+                })
+        }
+
+        else if (user.role == 'SELLER') {
+            sellerService.deactivateSeller(user.id)
+            .then(response => {
+                if(response.data) {
+                    sessionStorage.setItem('user', null);
+                    alert("!! DEACTIVATION SUCCESSFUL !!");
+                    window.location.reload();
+                }
+            })
+            .catch(err => {
+                console.log("err while deactivating customer : " + err);
+            })
+        }
+
+        else {
+            window.location.reload();
+        }
 
     }
 
@@ -118,13 +147,8 @@ const Profile = () => {
 
 
     return (<>
-        
+
         <div className='profilepage'>
-        {
-            overlay ? <div id="overlay">
-            <h1>HI there {user.role}</h1>
-        </div> : null
-        }
             <div className="container rounded bg-white mt-5 mb-5">
                 <div className="row">
                     <div className="col-md-3 border-right">

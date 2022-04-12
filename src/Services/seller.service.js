@@ -24,4 +24,12 @@ const getProductBasedOnSeller = (id) => {
   return httpClient.get('/seller/getproducts/' + id);
 } 
 
-export default { getAll, get, update, signin, signup, getProductBasedOnSeller };
+const updateProductDetails = (data) => {
+  return httpClient.post('/product/updateproduct', data);
+}
+
+const deactivateSeller = (id) => {
+  return httpClient.get('/seller/deactivateseller/' + id);
+}
+
+export default { getAll, get, update, signin, signup, getProductBasedOnSeller, updateProductDetails, deactivateSeller };

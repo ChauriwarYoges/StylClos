@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import productService from '../../Services/product.service';
+import sellerService from "../../Services/seller.service";
 
 function getLocalItems() {
     let list = JSON.parse(sessionStorage.getItem('user'));
@@ -39,12 +40,27 @@ const Editproduct = () => {
         productService.getProductById(id)
             .then(response => {
                 product = (response.data);
-                console.log(product.imgData);
+                console.log(product.quantity);
                 imagePrev = (product.imgData);
+                setTitle(product.title);
+                setCategory(product.category.id);
+                setType(product.type.id);
+                setQty(product.quantity);
+                setPrice(product.price);
+                setSize(product.size);
             })
             .catch(err => {
                 console.log("error while edit product in seller : " + err);
+            });
+
+            productService.getAllCategories()
+            .then(response => {
+                console.log(response.data);
+                setAllCategories(response.data);
             })
+            .catch(err => {
+                console.log(err);
+            });
 
         
     }, [])
@@ -55,23 +71,21 @@ const Editproduct = () => {
  
     const onSubmitProduct = (e) => {
         e.preventDefault();
-        let productDetails = { title, category, type, size, qty, price, email };
+        let updateProduct = { id, title, category, type, size, qty, price };
 
-        console.log("Stringify details of product : " + JSON.stringify(productDetails));
-        formData.append('productDetails', JSON.stringify(productDetails));
+        console.log("Stringify details of product : " + JSON.stringify(updateProduct));
+        formData.append('updateProduct', JSON.stringify(updateProduct));
 
         console.log("productData : " + formData);
 
-        productService.addNewProduct(formData)
+        sellerService.updateProductDetails(formData)
             .then(response => {
                 console.log("onsubmit : " + response.data);
                 if(response.data == false) {
                     alert("PRODUCT FAILED TO ADD");
-                    sessionStorage.setItem('prodtls', JSON.stringify(productDetails));
                     window.location.reload();
                 }
                 if(response.data) {
-                    sessionStorage.setItem('prodtls', null);
                     nav("/seller/home");
                 }
             })
@@ -111,7 +125,7 @@ const Editproduct = () => {
     const Category = (data) => {
         return (<>
             {data.map(d => console.log("in category : " + d.id))}
-            <select name='category' className="form-control" onChange={(e) => getAllTypeInCat(e.target.value)}>
+            <select value={category} className="form-control" onChange={(e) => getAllTypeInCat(e.target.value)}>
                 <option value={null}>--- select category ---</option>
                 {
                     (data != null) ?
@@ -130,7 +144,7 @@ const Editproduct = () => {
         return (<>
             {console.log(data)}
 
-            <select name='type' value={(allType) ? allType.id : ''} className="form-control" onChange={(e) => setType(e.target.value)}>
+            <select name='type' value={type} className="form-control" onChange={(e) => setType(e.target.value)}>
                 <option >--- select type ---</option>
                 {
                     allType ?
@@ -145,7 +159,6 @@ const Editproduct = () => {
     }
 
     return (<>
-        <h2>Edit Product</h2>
         <section className="vh-10" style={{ backgroundColor: '#eee' }}>
             <div className="container py-5 h-50">
                 <div className="row d-flex justify-content-center align-items-center h-100">
@@ -158,7 +171,7 @@ const Editproduct = () => {
                                     {/* PRODUCT NAME */}
                                     <div className="form-outline mb-4">
                                         <label htmlFor="exampleInputEmail1">Product name</label>
-                                        <input type="text" name='title' value={product.title} onChange={(e) => setTitle(e.target.value)} className="form-control" autoFocus />
+                                        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} className="form-control" autoFocus />
                                     </div>
 
                                     <div className="form-outline mb-4">
@@ -187,23 +200,23 @@ const Editproduct = () => {
 
                                     <div className="form-outline mb-4">
                                         <label htmlFor="exampleInputPassword1">Product Size</label>
-                                        <input name='size' type="text" value={product.size} onChange={(e) => setSize(e.target.value)} className="form-control" />
+                                        <input name='size' type="text" value={size} onChange={(e) => setSize(e.target.value)} className="form-control" />
                                     </div>
 
                                     <div className="form-outline mb-4">
                                         <label htmlFor="exampleInputPassword1">Product Quantity</label>
-                                        <input name = 'qty' type="text" value={product.qty} onChange={(e) => setQty(e.target.value)} className="form-control" />
+                                        <input name = 'qty' type="text" value={qty} onChange={(e) => setQty(e.target.value)} className="form-control" />
                                     </div>
 
                                     <div className="form-outline mb-4">
                                         <label htmlFor="exampleInputPassword1">Product Price</label>
-                                        <input name='price' type="text" value={product.price} onChange={(e) => setPrice(e.target.value)} className="form-control" />
+                                        <input name='price' type="text" value={price} onChange={(e) => setPrice(e.target.value)} className="form-control" />
                                     </div>
 
                                     <div className="form-outline mb-4">
                                         <label htmlFor="exampleInputPassword1">Product Image</label>
                                         <input type="file" onChange={onFileChange} accept="image/*" className="form-control" required /> <br/>
-                                        <center><img src={imagePrev} alt="" width={"100px"} height={"100px"} /></center>
+                                        {/* <center><img src={imagePrev} alt="" width={"100px"} height={"100px"} /></center> */}
                                     </div>
 
                                     <center>
