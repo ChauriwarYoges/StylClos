@@ -87,6 +87,10 @@
     transition: .3s;
 }
 
+.cartNumber {
+    top: -100px;
+}
+
 .cart-btn {
     background-color: transparent;
     border: none;

@@ -1,20 +1,23 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import './home.css';
 import { useNavigate } from "react-router-dom";
 import userService from "../../Services/user.service";
 
 function Login() {
 
+    const errRef = useRef();
+    const [errMsg, setErrMsg] = useState('');
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [role] = useState('SELLER');
     let [loading, setLoading] = useState(false);
     const nav = useNavigate();
-    let [userState, setUserState] = useState(null); 
+    let [userState, setUserState] = useState(null);
 
     useEffect(() => {
-        localStorage.setItem('user', JSON.stringify(userState));
+        sessionStorage.setItem('user', JSON.stringify(userState));
     }, [userState])
 
     const signin = (e) => {
@@ -25,15 +28,25 @@ function Login() {
         if (email) {
             userService.signin(user)
                 .then(response => {
-                    alert("Role : " + response.data.role);
                     console.log("login successful", response.data);
                     loading = setLoading(false);
-                    userState = setUserState(response.data);
+                    setUserState(response.data);
+                    console.log("login userState :  ", userState);
                     nav("/seller/home");
                 })
-                .catch(error => {
+                .catch(err => {
                     loading = setLoading(false);
-                    alert("Invalid email/password");
+                    console.log("error in login : " + err);
+                    if (!err?.response) {
+                        setErrMsg('No Server Response');
+                    } else if (err.response?.status === 400) {
+                        setErrMsg('Missing Username or Password');
+                    } else if (err.response?.status === 401) {
+                        setErrMsg('Unauthorized');
+                    } else {
+                        setErrMsg('Login Failed');
+                    }
+                    errRef.current.focus();
                 });
         }
         else {
@@ -77,6 +90,7 @@ function Login() {
                             <div className="card shadow-2-strong" style={{ borderRadius: '1rem' }}>
                                 <div className="card-body p-5 text-center">
 
+                                    <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
                                     <h3 className="mb-5">Login</h3>
                                     <form action="/home" onSubmit={(e) => signin(e)}>
                                         <div className="form-outline mb-4">
@@ -90,7 +104,7 @@ function Login() {
                                         </div>
 
                                         {/*Checkbox*/}
-                                        <div className="form-check d-flex justify-content-start mb-4">
+                                        {/* <div className="form-check d-flex justify-content-start mb-4">
                                             <input
                                                 className="form-check-input"
                                                 type="checkbox"
@@ -98,7 +112,7 @@ function Login() {
                                                 id="form1Example3"
                                             />
                                             <label className="form-check-label" htmlFor="form1Example3"> &emsp;Remember Me </label>
-                                        </div>
+                                        </div> */}
 
                                         <button type="submit" className="btn btn-primary btn-lg btn-block" disabled={loading}>
                                             {loading && (

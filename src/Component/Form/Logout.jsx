@@ -7,7 +7,7 @@ const Logout = () => {
     let nav = useNavigate();
 
     const getLocalItems = () => {
-        let list = localStorage.getItem('user');
+        let list = sessionStorage.getItem('user');
         console.log("logout : " + list);
 
         if (list) {
@@ -24,19 +24,19 @@ const Logout = () => {
         console.log("user : " + users);
 
         if (users == null) {
-            localStorage.setItem('user', null);
+            sessionStorage.setItem('user', null);
             nav("/Home");
         }
         else if (users.role == 'ADMIN') {
-            localStorage.setItem('user', null);
+            sessionStorage.setItem('user', null);
             nav('/admin/login');
         }
         else if (users.role == 'SELLER') {
-            localStorage.setItem('user', null);
+            sessionStorage.setItem('user', null);
             nav('/seller/login');
         }
         else {
-            localStorage.setItem('user', null);
+            sessionStorage.setItem('user', null);
             nav('/Home');
         }
     }, [users])

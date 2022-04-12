@@ -5,7 +5,7 @@ const SellerProtectedRoute = (props) => {
 
     let nav = useNavigate();
     let Cmp = props.Cmp;
-    let user = JSON.parse(localStorage.getItem('user'));
+    let user = JSON.parse(sessionStorage.getItem('user'));
 
     useEffect(() => {
 
@@ -21,7 +21,7 @@ const SellerProtectedRoute = (props) => {
                 nav("/admin/home");
         }
 
-    });
+    }, []);
 
     return (<>
         <Cmp />

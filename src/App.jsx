@@ -9,9 +9,12 @@ import './App.css';
 import AdminProtectedRoute from "./Component/ProtectedRoutes/AdminProtectedRoute";
 import SellerProtectedRoute from "./Component/ProtectedRoutes/SellerProtectedRoute";
 import CustomerProtectedRoute from "./Component/ProtectedRoutes/CustomerProtectedRoute";
+import GuestRoute from "./Component/ProtectedRoutes/GuestRoute";
 
 import Unauthorized from "./Component/Unauthorized";
 
+// EVERY USER
+import Logout from './Component/Form/Logout';
 import Profile from "./Component/Profile/Profile";
 
 // ANONYMOUS IMPORTS
@@ -26,7 +29,7 @@ import ProductDetailedPage from "./Component/Cards/ProductDetailedPage";
 // CUSTOMER IMPORTS
 import Cart from "./Component/Customer/Cart";
 import Order from "./Component/Customer/Order";
-import Logout from './Component/Form/Logout';
+import Checkout from "./Component/Customer/Checkout";
 
 // SELLER IMPORTS
 import LoginSeller from './Component/Seller/Login';
@@ -38,6 +41,16 @@ import Editproduct from "./Component/Seller/Editproduct";
 // ADMIN IMPORTS
 import AdminHome from './Component/Admin/Home';
 import AdminLogin from './Component/Admin/Login';
+import Addtype from './Component/Admin/Addtype';
+import Edittype from "./Component/Admin/Edittype";
+
+// footer routing links
+import Termscondition from './Component/AppDetailPages/Termscondition';
+import Shipdelivery from './Component/AppDetailPages/Shipdelivery';
+import Refundreturns from './Component/AppDetailPages/Refundreturns';
+import Privacypolicy from './Component/AppDetailPages/Privacypolicy';
+import FAQ from './Component/AppDetailPages/FAQ';
+
 
 
 const App = () => {
@@ -55,11 +68,19 @@ const App = () => {
                 <Route path='/Signup' element={<Signup />} />
                 <Route path='/ProductDetailedPage/:id' element={<ProductDetailedPage />} />
                 <Route path="/unauthorized" element={<Unauthorized />} />
+                
+                { /* FOOTER ROUTING LINKS */ }
+                <Route path="/termsandcondition" element={<Termscondition />} />
+                <Route path="/ship-delivery" element={<Shipdelivery />} />
+                <Route path="/refunds-returns" element={<Refundreturns />} />
+                <Route path="/privacy-policy" element={<Privacypolicy />} />
+                <Route path='/faq' element={<FAQ />} />
 
                 { /* CUSTOMER ROUTES */}
                 { /* CUSTOMER PROTECTED PATHS */}
                 <Route path="/cart" element= { <CustomerProtectedRoute Cmp={Cart} /> } />
                 <Route path="/order" element = { <CustomerProtectedRoute Cmp={Order} /> } />
+                <Route path="/checkout" element= { <CustomerProtectedRoute Cmp={Checkout} /> } />
 
                 
                 { /* Seller Routes */}
@@ -80,8 +101,11 @@ const App = () => {
                 { /* ADMIN PROTECTED PATHS */}
                 <Route path='/admin/register' element={<AdminProtectedRoute Cmp={AdminHome} />} />
                 <Route path='/admin/home' element={<AdminProtectedRoute Cmp={AdminHome} />} />
+                <Route path='/admin' element={<AdminProtectedRoute Cmp={AdminHome} />} />
                 <Route path="/admin/addcategory" element={<AdminProtectedRoute Cmp={AdminHome} />} />
-                <Route path='/admin/addtype' element={<AdminProtectedRoute Cmp={AdminHome} />} />
+                <Route path='/admin/addtype' element={<AdminProtectedRoute Cmp={Addtype} />} />
+                <Route path='/admin/edit-type/:id' element={ <AdminProtectedRoute Cmp={Edittype} /> } />
+
 
 
 

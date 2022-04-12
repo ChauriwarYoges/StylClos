@@ -21,11 +21,36 @@ const signin = (data) => {
 }
 
 const signup = (data) => {
-  return httpClient.post('/customer/signup', data);
+  return httpClient.post('/user/signup', data);
 }
 
 const updateProfile = (data) => {
   return httpClient.post('/user/updateprofile', data);
 }
 
-export default { getAll, get, update, signin, signup, getAddress, updateProfile };
+const addCartItems = (data) => {
+  return httpClient.post('/customer/addtocart', data);
+}
+
+const getCartItems = (id) => {
+  return httpClient.get('/customer/cart/' + id);
+}
+
+const updateCartQuantity = (data) => {
+  return httpClient.post('/customer/updateCartQty', data);
+}
+
+const deleteItemOfCart = (id) => {
+  return httpClient.get('/customer/deletecart/' + id);
+}
+
+const cartItemCount = (id) => {
+  return httpClient.get('/customer/cartcount/' + id);
+}
+
+const checkItemInCart = (proId, userId) => {
+  return httpClient.get('/customer/checkcart/' + proId + '/' + userId);
+}
+
+export default { getAll, get, update, signin, signup, getAddress, updateProfile, 
+                 addCartItems, getCartItems, updateCartQuantity, deleteItemOfCart, cartItemCount, checkItemInCart };
