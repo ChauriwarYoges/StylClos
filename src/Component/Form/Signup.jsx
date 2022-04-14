@@ -55,8 +55,8 @@ function Signup() {
                     setStatus(false);
                 }
                 else {
-                    console.log("Email already exists : " + response.data);
-                    alert("entered email is already registered");
+                    // console.log("Email already exists : " + response.data);
+                    // alert("entered email is already registered");
                     setStatus(true);
                 }
             }).catch(error => {

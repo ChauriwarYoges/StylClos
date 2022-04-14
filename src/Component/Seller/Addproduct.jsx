@@ -76,6 +76,7 @@ const Addproduct = () => {
                 }
                 if (response.data) {
                     sessionStorage.setItem('prodtls', null);
+                    alert("!! PRODUCT ADDED SUCCESSFULLY !!");
                     nav("/seller/home");
                 }
             })
